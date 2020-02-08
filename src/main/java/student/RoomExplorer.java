@@ -7,8 +7,18 @@ public class RoomExplorer { //The Wrapper class
     public String startingRoom;
     public String endingRoom;
 
+    public List<Rooms> getRooms() {
+        return rooms;
+    }
+    public String getStartingRoom() {
+        return startingRoom;
+    }
+    public String[] getEndingRoom() {
+        return endingRoom;
+    }
+
     // Add Constructor and getter methods
-    protected static class Rooms {
+    public static class Rooms {
         public String name;
         public String description;
         public String[] items;
@@ -28,8 +38,15 @@ public class RoomExplorer { //The Wrapper class
         }
 
     }
-    protected static class Directions {
+    public static class Directions {
         public String directionName;
         public String room;
+
+        public String getDirectionName() {
+            return directionName;
+        }
+        public String getRoom() {
+            return room;
+        }
     }
 }

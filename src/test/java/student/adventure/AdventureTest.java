@@ -8,7 +8,9 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemOutRule;
+import student.RoomExplorer;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -19,6 +21,8 @@ public class AdventureTest {
 
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     @Before
     public void setUp() {
@@ -73,6 +77,13 @@ public class AdventureTest {
                 "You can see the elevator, the ACM office, and hallways to the north and east.\n" +
                 "From here, you can go: West, Northeast, North, or East\n", systemOutRule.getLog());
     }
+    @Test
+    public void exitGameInput() {
+        Adventure.evaluateInput("eXIt");
+        assertEquals("You are in the west entry of Siebel Center. " +
+                "You can see the elevator, the ACM office, and hallways to the north and east.\n" +
+                "From here, you can go: West, Northeast, North, or East\n", systemOutRule.getLog());
+    }
 
     //changeRoom tests
     //changeRoom will never receive a bad input if evaluateInput works properly
@@ -94,16 +105,26 @@ public class AdventureTest {
 
     //IsEndOfGame tests
     @Test
-    public void endOfGameEndingRoom() {
-        assertEquals(true,
-                Adventure.checkEndOfGame("Siebel1314"));
+    public void checkEndOfGameEndingRoom() {
+        exit.expectSystemExit();
+        Adventure.checkEndOfGame("Siebel1314");
     }
-    public void endOfGameStartingRoom() {
-        assertEquals(false,
-                Adventure.checkEndOfGame("MatthewsStreet"));
+    @Test
+    public void checkEndOfGameStartingRoom() {
+        assertEquals(Adventure.checkEndOfGame("MatthewsStreet"), false);
     }
-    public void endOfGameIntermediateRoom() {
-        assertEquals(false,
-                Adventure.checkEndOfGame("AcmOffice"));
+    @Test
+    public void checkEndOfGameIntermediateRoom() {
+        assertEquals(Adventure.checkEndOfGame("AcmOffice"), false);
+    }
+
+    //Tests for parsing JSON
+    @Test
+    public void checkStartingRoom() {
+        assertEquals(RoomExplorer.getStartingRoom(), "MatthewsStreet");
+    }
+    @Test
+    public void checkStartingRoom() {
+        assertEquals(RoomExplorer.getStartingRoom(), "MatthewsStreet");
     }
 }
