@@ -12,8 +12,21 @@ public class RoomExplorer { //The Wrapper class
         public String name;
         public String description;
         public String[] items;
-        public List<Directions> directions;
-        // -- Constructor and getter methods omitted for brevity --
+        public Directions[][] directions;
+
+        public Directions[][] getDirections() {
+            return directions;
+        }
+        public String getDescription() {
+            return description;
+        }
+        public String[] getItems() {
+            return items;
+        }
+        public String getName() {
+            return name;
+        }
+
     }
     protected static class Directions {
         public String directionName;

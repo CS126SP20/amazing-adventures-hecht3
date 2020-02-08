@@ -25,13 +25,14 @@ public class AdventureTest {
         mapper = new ObjectMapper();
     }
 
-    //The following are tests using the standard siebel.json file
+    //The following are tests using the standard siebel.json file.
 
     //The helper function tests
     //readInput does not need to be tested because it is trivial
 
+    //evaluateInput tests
     @Test
-    public void evaluateInputInvalidString() {
+    public void invalidString() {
         Adventure.evaluateInput("Hello");
         assertEquals("I don't understand 'Hello'\n", systemOutRule.getLog());
     }
@@ -71,5 +72,38 @@ public class AdventureTest {
         assertEquals("You are in the west entry of Siebel Center. " +
                 "You can see the elevator, the ACM office, and hallways to the north and east.\n" +
                 "From here, you can go: West, Northeast, North, or East\n", systemOutRule.getLog());
+    }
+
+    //changeRoom tests
+    //changeRoom will never receive a bad input if evaluateInput works properly
+    @Test
+    public void changeRoomInitial() {
+        assertEquals("SiebelEntry",
+                Adventure.changeRoom("MatthewsStreet", "East"));
+    }
+    @Test
+    public void changeRoomLater() {
+        assertEquals("SiebelNorthHallWay",
+                Adventure.changeRoom("SiebelNorthHallway", "North"));
+    }
+    @Test
+    public void changeRoomToEnd() {
+        assertEquals("Siebel1314",
+                Adventure.changeRoom("SiebelEastHallway", "South"));
+    }
+
+    //IsEndOfGame tests
+    @Test
+    public void endOfGameEndingRoom() {
+        assertEquals(true,
+                Adventure.checkEndOfGame("Siebel1314"));
+    }
+    public void endOfGameStartingRoom() {
+        assertEquals(false,
+                Adventure.checkEndOfGame("MatthewsStreet"));
+    }
+    public void endOfGameIntermediateRoom() {
+        assertEquals(false,
+                Adventure.checkEndOfGame("AcmOffice"));
     }
 }
