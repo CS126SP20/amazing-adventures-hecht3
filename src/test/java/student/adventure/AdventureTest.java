@@ -2,15 +2,18 @@ package student.adventure;
 
 import static org.junit.Assert.assertThat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
 
 public class AdventureTest {
+    private ObjectMapper mapper;
+
     @Before
     public void setUp() {
-        // This is run before every test.
+        mapper = new ObjectMapper();
     }
 
     @Test
