@@ -9,6 +9,7 @@ public class Directions {
     @JsonProperty("room")
     private String room;
 
+
     @JsonGetter("directionName")
     public String getDirectionName() {
         return directionName;

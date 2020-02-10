@@ -16,6 +16,7 @@ import student.RoomExplorer;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.Arrays;
 
 
 public class AdventureTest {
@@ -83,7 +84,7 @@ public class AdventureTest {
     }
     @Test
     public void initialGoEastExtraLengthSpaces() {
-        adventure.evaluateInput("   go East     ");
+        adventure.evaluateInput("   go EasT     ");
         assertEquals("You are in the west entry of Siebel Center. " +
                 "You can see the elevator, the ACM office, and hallways to the north and east.\n" +
                 "From here, you can go: West, Northeast, North, or East\n", systemOutRule.getLog());
@@ -91,16 +92,19 @@ public class AdventureTest {
     @Test
     public void exitGameInput() {
         adventure.evaluateInput("eXIt");
-        assertEquals("You are in the west entry of Siebel Center. " +
-                "You can see the elevator, the ACM office, and hallways to the north and east.\n" +
-                "From here, you can go: West, Northeast, North, or East\n", systemOutRule.getLog());
+        assertEquals("You have decided to quit the game.\n", systemOutRule.getLog());
+    }
+    @Test
+    public void quitGameInput() {
+        adventure.evaluateInput("quIt");
+        assertEquals("You have decided to quit the game.\n", systemOutRule.getLog());
     }
 
     //changeRoom tests
     //changeRoom will never receive a bad input if evaluateInput works properly
     @Test
     public void changeRoomInitial() {
-        assertEquals("SiebelEntry",
+        assertEquals("testRoom",
                 adventure.changeRoom("MatthewsStreet", "East"));
     }
     @Test
@@ -138,5 +142,4 @@ public class AdventureTest {
     public void checkEndingRoom() {
         assertEquals( "Siebel1314", explorer.getEndingRoom());
     }
-
 }

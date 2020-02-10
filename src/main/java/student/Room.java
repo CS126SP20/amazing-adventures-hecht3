@@ -18,6 +18,7 @@ public class Room {
     @JsonProperty("directions")
     private ArrayList<Directions> directions;
 
+
     @JsonGetter("name")
     public String getName() {
         return name;
@@ -30,11 +31,9 @@ public class Room {
     public String[] getItems() {
         return items;
     }
-    @JsonAnyGetter
+    @JsonGetter("directions")
     public ArrayList<Directions> getDirections() {
         return directions;
-        // This way we know that the directions will be paired with their respective rooms in
-        // the HashMap
     }
 
 }
