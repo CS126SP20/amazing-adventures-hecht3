@@ -1,5 +1,7 @@
 package student;
 
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import student.adventure.Adventure;
 
@@ -10,18 +12,12 @@ import java.util.List;
 //reading and one method for outputting, write initial tests for the functions I have made.
 
 public class Main {
+    static File defaultFile;
+
     public static void main(String[] args) {
-        File defaultFile = new File("src/main/resources/siebel.json"); //Possibly add a getFile function here
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            RoomExplorer explorer = mapper.readValue(defaultFile, RoomExplorer.class);
-        }
-        catch(Exception e) {
-            System.out.println(e);
-        }
-        Adventure.readInput();
-
-
+        defaultFile = new File("src/main/resources/siebel.json"); //Possibly add a getFile function here
+        Adventure adventure = new Adventure(defaultFile);
+        adventure.readInput();
 
     }
 

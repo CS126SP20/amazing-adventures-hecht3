@@ -10,14 +10,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemOutRule;
+import student.Room;
 import student.RoomExplorer;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 
 
 public class AdventureTest {
     private ObjectMapper mapper;
+    private Adventure adventure;
+    private RoomExplorer explorer;
 
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
@@ -26,7 +30,14 @@ public class AdventureTest {
 
     @Before
     public void setUp() {
-        mapper = new ObjectMapper();
+        File file = new File("src/main/resources/siebel.json");
+        this.mapper = new ObjectMapper();
+        adventure = new Adventure(file);
+        try {
+            this.explorer = mapper.readValue(file, RoomExplorer.class);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     //The following are tests using the standard siebel.json file.
@@ -37,49 +48,49 @@ public class AdventureTest {
     //evaluateInput tests
     @Test
     public void invalidString() {
-        Adventure.evaluateInput("Hello");
+        adventure.evaluateInput("Hello");
         assertEquals("I don't understand 'Hello'\n", systemOutRule.getLog());
     }
     @Test
     public void evaluateInputInvalidStringNumber() {
-        Adventure.evaluateInput("5");
+        adventure.evaluateInput("5");
         assertEquals("I don't understand '5'\n", systemOutRule.getLog());
     }
     @Test
     public void evaluateInputInvalidStringCapitalization() {
-        Adventure.evaluateInput("hELlo");
+        adventure.evaluateInput("hELlo");
         assertEquals("I don't understand 'hELlo'\n", systemOutRule.getLog());
     }
     @Test
     public void initialGoEastExtraLength() {
-        Adventure.evaluateInput("go East and then go NORth");
+        adventure.evaluateInput("go East and then go NORth");
         assertEquals("I don't understand 'go East and then go NORth'\n",
                 systemOutRule.getLog());
     }
     @Test
     public void initialGoEast() {
-        Adventure.evaluateInput("go east");
+        adventure.evaluateInput("go east");
         assertEquals("You are in the west entry of Siebel Center. " +
                 "You can see the elevator, the ACM office, and hallways to the north and east.\n" +
                 "From here, you can go: West, Northeast, North, or East\n", systemOutRule.getLog());
     }
     @Test
     public void initialGoEastCapitalization() {
-        Adventure.evaluateInput("gO EaSt");
+        adventure.evaluateInput("gO EaSt");
         assertEquals("You are in the west entry of Siebel Center. " +
                 "You can see the elevator, the ACM office, and hallways to the north and east.\n" +
                 "From here, you can go: West, Northeast, North, or East\n", systemOutRule.getLog());
     }
     @Test
     public void initialGoEastExtraLengthSpaces() {
-        Adventure.evaluateInput("   go East     ");
+        adventure.evaluateInput("   go East     ");
         assertEquals("You are in the west entry of Siebel Center. " +
                 "You can see the elevator, the ACM office, and hallways to the north and east.\n" +
                 "From here, you can go: West, Northeast, North, or East\n", systemOutRule.getLog());
     }
     @Test
     public void exitGameInput() {
-        Adventure.evaluateInput("eXIt");
+        adventure.evaluateInput("eXIt");
         assertEquals("You are in the west entry of Siebel Center. " +
                 "You can see the elevator, the ACM office, and hallways to the north and east.\n" +
                 "From here, you can go: West, Northeast, North, or East\n", systemOutRule.getLog());
@@ -90,41 +101,42 @@ public class AdventureTest {
     @Test
     public void changeRoomInitial() {
         assertEquals("SiebelEntry",
-                Adventure.changeRoom("MatthewsStreet", "East"));
+                adventure.changeRoom("MatthewsStreet", "East"));
     }
     @Test
     public void changeRoomLater() {
         assertEquals("SiebelNorthHallWay",
-                Adventure.changeRoom("SiebelNorthHallway", "North"));
+                adventure.changeRoom("SiebelNorthHallway", "North"));
     }
     @Test
     public void changeRoomToEnd() {
         assertEquals("Siebel1314",
-                Adventure.changeRoom("SiebelEastHallway", "South"));
+                adventure.changeRoom("SiebelEastHallway", "South"));
     }
 
     //IsEndOfGame tests
     @Test
     public void checkEndOfGameEndingRoom() {
         exit.expectSystemExit();
-        Adventure.checkEndOfGame("SiebelEastHallway", "south");
+        adventure.checkEndOfGame("SiebelEastHallway", "south");
     }
     @Test
     public void checkEndOfGameStartingRoom() {
-        assertEquals(Adventure.checkEndOfGame("MatthewsStreet", "south"), false);
+        assertEquals(adventure.checkEndOfGame("MatthewsStreet", "south"), false);
     }
     @Test
     public void checkEndOfGameIntermediateRoom() {
-        assertEquals(Adventure.checkEndOfGame("AcmOffice", "north"), false);
+        assertEquals(adventure.checkEndOfGame("AcmOffice", "north"), false);
     }
 
     //Tests for parsing JSON
     @Test
     public void checkStartingRoom() {
-        assertEquals(RoomExplorer.getStartingRoom(), "MatthewsStreet");
+        assertEquals( "MatthewsStreet", explorer.getStartingRoom());
     }
     @Test
     public void checkEndingRoom() {
-        assertEquals(RoomExplorer.getEndingRoom(), "Siebel 1314");
+        assertEquals( "Siebel1314", explorer.getEndingRoom());
     }
+
 }
