@@ -1,51 +1,62 @@
 package student;
 
+import org.glassfish.grizzly.utils.ArrayUtils;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RoomExplorer { //The Wrapper class
-    public List<Rooms> rooms;
-    public String startingRoom;
-    public String endingRoom;
+    private static List<Room> rooms;
+    private static Room startingRoom;
+    private static Room endingRoom;
 
-    public List<Rooms> getRooms() {
+    public static List<Room> getRooms() {
         return rooms;
     }
-    public String getStartingRoom() {
+    public static Room getStartingRoom() {
         return startingRoom;
     }
-    public String[] getEndingRoom() {
+    public static Room getEndingRoom() {
         return endingRoom;
     }
 
     // Add Constructor and getter methods
-    public static class Rooms {
-        public String name;
-        public String description;
-        public String[] items;
-        public Directions[][] directions;
+    public static class Room {
+        private static String name;
+        private static String description;
+        private static String[] items;
+        private static Directions[][] directions;
 
-        public Directions[][] getDirections() {
-            return directions;
+        public static String getName() {
+            return name;
         }
-        public String getDescription() {
+        public static String getDescription() {
             return description;
         }
-        public String[] getItems() {
+        public static String[] getItems() {
             return items;
         }
-        public String getName() {
-            return name;
+        public static Map<Directions, Directions> getDirectionsAsHashMap() {
+            final Map<Directions, Directions> map = new HashMap<Directions, Directions>(directions.length);
+            for (Directions[] direction : directions)
+            {
+                map.put(direction[0], direction[1]);
+            }
+            return map;
+            // This way we know that the directions will be paired with their respective rooms in
+            // the HashMap
         }
 
     }
     public static class Directions {
-        public String directionName;
-        public String room;
+        private static String directionName;
+        private static String room;
 
-        public String getDirectionName() {
+        public static String getDirectionName() {
             return directionName;
         }
-        public String getRoom() {
+        public static String getRoom() {
             return room;
         }
     }

@@ -107,15 +107,15 @@ public class AdventureTest {
     @Test
     public void checkEndOfGameEndingRoom() {
         exit.expectSystemExit();
-        Adventure.checkEndOfGame("Siebel1314");
+        Adventure.checkEndOfGame("SiebelEastHallway", "south");
     }
     @Test
     public void checkEndOfGameStartingRoom() {
-        assertEquals(Adventure.checkEndOfGame("MatthewsStreet"), false);
+        assertEquals(Adventure.checkEndOfGame("MatthewsStreet", "south"), false);
     }
     @Test
     public void checkEndOfGameIntermediateRoom() {
-        assertEquals(Adventure.checkEndOfGame("AcmOffice"), false);
+        assertEquals(Adventure.checkEndOfGame("AcmOffice", "north"), false);
     }
 
     //Tests for parsing JSON
@@ -124,7 +124,7 @@ public class AdventureTest {
         assertEquals(RoomExplorer.getStartingRoom(), "MatthewsStreet");
     }
     @Test
-    public void checkStartingRoom() {
-        assertEquals(RoomExplorer.getStartingRoom(), "MatthewsStreet");
+    public void checkEndingRoom() {
+        assertEquals(RoomExplorer.getEndingRoom(), "Siebel 1314");
     }
 }
