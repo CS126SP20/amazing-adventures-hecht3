@@ -53,6 +53,9 @@ public class Adventure {
                 throw new Exception("Input not valid");
             }
             newRoom = changeRoom(currentRoom, direction);
+            if (checkEndOfGame(newRoom)) {
+                System.exit(0);
+            }
             System.out.println(newRoom.getDescription() + "\nFrom here, you can go: "
                                                         + directionsAsString(newRoom));
         } catch (Exception e) {
@@ -67,11 +70,6 @@ public class Adventure {
 
         ///// Be sure to evaluate the input and check for the end of the game before you print the
         ///// possible directions
-        String toPrint = "";
-        boolean isEndingRoom = checkEndOfGame(currentRoom, direction);
-        if (isEndingRoom) {
-            System.exit(0);
-        }
     }
     public Room checkStartingRoom(Room currentRoom) {
         if (currentRoom == null) {
@@ -95,7 +93,6 @@ public class Adventure {
                 }
             }
         }
-        //Room newRoom = currentRoom.getDirectionsAsHashMap().get(direction).getRoom();
         return null;
     }
     public boolean isDeadEnd(Room currentRoom) {
@@ -105,7 +102,7 @@ public class Adventure {
             return false;
         }
     }
-    public boolean checkEndOfGame(Room currentRoom, String direction) {
+    public boolean checkEndOfGame(Room currentRoom) {
         if (currentRoom.getName().equals(explorer.getEndingRoom())) {
             System.out.println("You have found the ending room!");
             return true;

@@ -18,7 +18,6 @@ public class Main {
         defaultFile = new File("src/main/resources/siebel.json"); //Possibly add a getFile function here
         Adventure adventure = new Adventure(defaultFile);
         adventure.readInput(null);
-
     }
 
 }

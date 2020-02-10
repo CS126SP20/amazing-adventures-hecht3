@@ -102,36 +102,36 @@ public class AdventureTest {
 
     //changeRoom tests
     //changeRoom will never receive a bad input if evaluateInput works properly
-//    @Test
-//    public void changeRoomInitial() {
-//        assertEquals("testRoom",
-//                adventure.changeRoom("MatthewsStreet", "East"));
-//    }
-//    @Test
-//    public void changeRoomLater() {
-//        assertEquals("SiebelNorthHallWay",
-//                adventure.changeRoom("SiebelNorthHallway", "North"));
-//    }
-//    @Test
-//    public void changeRoomToEnd() {
-//        assertEquals("Siebel1314",
-//                adventure.changeRoom("SiebelEastHallway", "South"));
-//    }
-//
-//    //IsEndOfGame tests
-//    @Test
-//    public void checkEndOfGameEndingRoom() {
-//        exit.expectSystemExit();
-//        adventure.checkEndOfGame("SiebelEastHallway", "south");
-//    }
-//    @Test
-//    public void checkEndOfGameStartingRoom() {
-//        assertEquals(adventure.checkEndOfGame("MatthewsStreet", "south"), false);
-//    }
-//    @Test
-//    public void checkEndOfGameIntermediateRoom() {
-//        assertEquals(adventure.checkEndOfGame("AcmOffice", "north"), false);
-//    }
+    @Test
+    public void changeRoomInitial() {
+        assertEquals("testRoom",
+                adventure.changeRoom(explorer.getRooms().get(0), "East"));
+    }
+    @Test
+    public void changeRoomLater() {
+        assertEquals("SiebelNorthHallWay",
+                adventure.changeRoom(explorer.getRooms().get(1), "North"));
+    }
+    @Test
+    public void changeRoomToEnd() {
+        assertEquals("Siebel1314",
+                adventure.changeRoom(explorer.getRooms().get(6), "South"));
+    }
+
+    //IsEndOfGame tests
+    @Test
+    public void checkEndOfGameEndingRoom() {
+        assertEquals(true,
+                adventure.checkEndOfGame(explorer.getRooms().get(explorer.getRooms().size() - 2)));
+    }
+    @Test
+    public void checkEndOfGameStartingRoom() {
+        assertEquals(false, adventure.checkEndOfGame(explorer.getRooms().get(0)));
+    }
+    @Test
+    public void checkEndOfGameIntermediateRoom() {
+        assertEquals(false, adventure.checkEndOfGame(explorer.getRooms().get(4)));
+    }
 
     //Tests for parsing JSON
     @Test
