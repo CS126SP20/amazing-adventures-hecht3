@@ -8,9 +8,6 @@ import student.adventure.Adventure;
 import java.io.File;
 import java.util.List;
 
-//@TODO Next Steps: figure out how to read and output user input so that I can decide if I really need one method for
-//reading and one method for outputting, write initial tests for the functions I have made.
-
 public class Main {
     static File defaultFile;
 

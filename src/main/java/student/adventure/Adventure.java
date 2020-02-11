@@ -17,10 +17,10 @@ public class Adventure {
     List<Room> rooms;
 
     public Adventure(File defaultFile) {
-        this.mapper = new ObjectMapper();
+        mapper = new ObjectMapper();
         try {
-            this.explorer = mapper.readValue(defaultFile, RoomExplorer.class);
-            this.rooms = explorer.getRooms();
+            explorer = mapper.readValue(defaultFile, RoomExplorer.class);
+            rooms = explorer.getRooms();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -40,13 +40,13 @@ public class Adventure {
         }
         currentRoom = checkStartingRoom(currentRoom);
         String direction = null;
-        Room newRoom;
+        Room newRoom = null;
 
         ArrayList<Directions> directions = currentRoom.getDirections();
         try {
             for (int i = 0; i < directions.size(); i++) {
-                if (directions.get(i).getDirectionName().equals(standardizedInput)) {
-                    direction = standardizedInput;
+                if (directions.get(i).getDirectionName().toLowerCase().equals(standardizedInput)) {
+                    direction = directions.get(i).getDirectionName();
                 }
             }
             if (direction == null) {
@@ -66,8 +66,10 @@ public class Adventure {
                 System.exit(0);
             }
         }
-
-
+        if (newRoom != null) {
+            readInput(newRoom);
+        }
+        readInput(currentRoom);
         ///// Be sure to evaluate the input and check for the end of the game before you print the
         ///// possible directions
     }
@@ -105,6 +107,7 @@ public class Adventure {
     public boolean checkEndOfGame(Room currentRoom) {
         if (currentRoom.getName().equals(explorer.getEndingRoom())) {
             System.out.println("You have found the ending room!");
+            System.out.println("The ending room was: " + currentRoom.getName());
             return true;
         } else {
             return false;
@@ -115,9 +118,7 @@ public class Adventure {
         if (inputAsLowerTrimmed.indexOf("go") == 0) {
             String lowercaseStandardizedInput =
                     inputAsLowerTrimmed.substring(inputAsLowerTrimmed.indexOf(" ") + 1);
-            String standardizedInput = lowercaseStandardizedInput.substring(0, 1).toUpperCase()
-                                       + lowercaseStandardizedInput.substring(1);
-            return standardizedInput;
+            return lowercaseStandardizedInput;
         } else {
             return inputAsLowerTrimmed;
         }
