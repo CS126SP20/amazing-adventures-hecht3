@@ -1,0 +1,28 @@
+{
+  "startingRoom": "StartRoom",
+  "endingRoom": "EndRoom",
+  "rooms": [
+    {
+      "name": "StartRoom",
+      "description": "You are in the starting room",
+      "items": ["item"],
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "EndRoom"
+        }
+      ]
+    },
+    {
+      "name": "EndRoom",
+      "description": "You are in the ending room",
+      "items": ["pants", "money"],
+      "directions": [
+        {
+          "directionName": "East",
+          "room": "StartRoom"
+        }
+      ]
+    }
+  ]
+}
