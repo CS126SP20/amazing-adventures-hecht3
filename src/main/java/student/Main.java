@@ -22,19 +22,26 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         userFile = new File(input);
-        if (!userFile.isDirectory()) {
-            System.out.println("You have not provided a file or you have provided a bad filepath. "
-                    + "The default JSON will be used.\nPlease press enter to continue");
-            adventure = new Adventure(defaultFile);
-            adventure.readInput(null);
-        } else {
-            System.out.println("You have provided a valid file. " +
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            RoomExplorer explorer = mapper.readValue(userFile, RoomExplorer.class);
+            System.out.println("You have provided a valid JSON. " +
                     "\nPlease press enter to continue. Enjoy your game!");
             adventure = new Adventure(userFile);
             adventure.readInput(null);
+        } catch (Exception e) {
+            try {
+                System.out.println("You have not provided a valid JSON. The default json will be" +
+                        " used.\nPlease press enter to continue");
+                ObjectMapper mapper = new ObjectMapper();
+                RoomExplorer explorer = mapper.readValue(defaultFile, RoomExplorer.class);
+                adventure = new Adventure(defaultFile);
+                adventure.readInput(null);
+            } catch (Exception except) {
+                System.out.println(except);
+            }
         }
     }
-
 }
 
 

@@ -15,6 +15,7 @@ public class Adventure {
     List<Room> rooms;
     boolean isEndOfGame;
 
+    //////////////////////// make the below constructor the only constructor and move the above logic to main
     public Adventure(File defaultFile) {
         mapper = new ObjectMapper();
         try {
@@ -71,17 +72,12 @@ public class Adventure {
         } catch (Exception e) {
             if (!isDeadEnd(currentRoom)) {
                 System.out.println("I don't understand '" + input + "'");
-
-//                System.out.println(currentRoom.getDescription() + "\nFrom here, you can go: "
-//                        + directionsAsString(newRoom));
             } else {
                 System.out.println("You have reached a dead end! Your game has ended.");
                 System.exit(0);
             }
             return currentRoom;
         }
-        /// Be sure to evaluate the input and check for the end of the game before you print the
-        /// possible directions
     }
 
     public Room checkForStartingRoom(Room currentRoom) {
@@ -96,7 +92,6 @@ public class Adventure {
     }
 
     public Room changeRoom(Room currentRoom, String direction) {
-        List<Room> rooms = explorer.getRooms();
         for (Directions d : currentRoom.getDirections()) {
             if (d.getDirectionName().equals(direction)) {
                 String newRoomName = d.getRoom();
@@ -110,8 +105,6 @@ public class Adventure {
         return null;
     }
 //Create javadoc comments
-//Show start room for the user <------ create a function that displays the description.
-//Be able to run tests without commenting out the readinput loop
 //Verify that json is valid
 //Test for alternate json
 //Maybe reorganize
