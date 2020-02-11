@@ -2,6 +2,7 @@ package student;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class Directions {
     @JsonProperty("directionName")
@@ -14,8 +15,18 @@ public class Directions {
     public String getDirectionName() {
         return directionName;
     }
+    @JsonSetter("directionName")
+    public void setDirectionName(String directionN) {
+        this.directionName = directionN;
+    }
+
     @JsonGetter("room")
     public String getRoom() {
         return room;
     }
+    @JsonGetter("room")
+    public void setRoom(String roomName) {
+        this.room = roomName;
+    }
+
 }

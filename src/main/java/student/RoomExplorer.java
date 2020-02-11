@@ -24,8 +24,8 @@ public class RoomExplorer { //The Wrapper class
         return rooms;
     }
     @JsonSetter("rooms")
-    public void setRooms(ArrayList<Room> rooms) {
-        this.rooms = rooms;
+    public void setRooms(ArrayList<Room> roomsList) {
+        this.rooms = roomsList;
     }
 
     @JsonGetter("startingRoom")
@@ -33,8 +33,8 @@ public class RoomExplorer { //The Wrapper class
         return startingRoom;
     }
     @JsonSetter("startingRoom")
-    public void setStartingRoom(String startingRoom) {
-        this.startingRoom = startingRoom;
+    public void setStartingRoom(String startRoom) {
+        this.startingRoom = startRoom;
     }
 
     @JsonGetter("endingRoom")
@@ -42,7 +42,7 @@ public class RoomExplorer { //The Wrapper class
         return endingRoom;
     }
     @JsonSetter("endingRoom")
-    public void setEndingRoom(String endingRoom) {
-        this.endingRoom = endingRoom;
+    public void setEndingRoom(String endRoom) {
+        this.endingRoom = endRoom;
     }
 }

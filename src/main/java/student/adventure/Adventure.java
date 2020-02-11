@@ -8,7 +8,6 @@ import student.RoomExplorer;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Adventure {
@@ -66,12 +65,12 @@ public class Adventure {
                 System.exit(0);
             }
         }
-//        if (newRoom != null) {
-//            readInput(newRoom);
-//        }
-//        readInput(currentRoom);
-        ///// Be sure to evaluate the input and check for the end of the game before you print the
-        ///// possible directions
+        if (newRoom != null) {
+            readInput(newRoom);
+        }
+        readInput(currentRoom);
+        /// Be sure to evaluate the input and check for the end of the game before you print the
+        /// possible directions
     }
     public Room checkForStartingRoom(Room currentRoom) {
         if (currentRoom == null) {
