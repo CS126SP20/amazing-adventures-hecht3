@@ -2,21 +2,15 @@ package student.adventure;
 
 import static org.junit.Assert.*;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemOutRule;
-import student.Room;
 import student.RoomExplorer;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.InputStream;
-import java.util.Arrays;
 
 
 public class AdventureTest {

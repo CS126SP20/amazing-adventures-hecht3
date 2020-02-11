@@ -24,11 +24,12 @@ public class Main {
         userFile = new File(input);
         if (!userFile.isDirectory()) {
             System.out.println("You have not provided a file or you have provided a bad filepath. "
-                    + "The default JSON will be used.");
+                    + "The default JSON will be used.\nPlease press enter to continue");
             adventure = new Adventure(defaultFile);
             adventure.readInput(null);
         } else {
-            System.out.println("You have provided a valid file. Enjoy your game!");
+            System.out.println("You have provided a valid file. " +
+                    "\nPlease press enter to continue. Enjoy your game!");
             adventure = new Adventure(userFile);
             adventure.readInput(null);
         }
