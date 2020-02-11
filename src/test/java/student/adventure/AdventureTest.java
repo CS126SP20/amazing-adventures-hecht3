@@ -91,11 +91,13 @@ public class AdventureTest {
     }
     @Test
     public void exitGameInput() {
+        exit.expectSystemExit();
         adventure.evaluateInput(null, "eXIt");
         assertEquals("You have decided to quit the game.\n", systemOutRule.getLog());
     }
     @Test
     public void quitGameInput() {
+        exit.expectSystemExit();
         adventure.evaluateInput(null, "quIt");
         assertEquals("You have decided to quit the game.\n", systemOutRule.getLog());
     }
@@ -104,21 +106,21 @@ public class AdventureTest {
     //changeRoom will never receive a bad input if evaluateInput works properly
     @Test
     public void changeRoomInitial() {
-        assertEquals("testRoom",
-                adventure.changeRoom(explorer.getRooms().get(0), "East"));
+        assertEquals("SiebelEntry",
+                adventure.changeRoom(explorer.getRooms().get(0), "East").getName());
     }
     @Test
     public void changeRoomLater() {
-        assertEquals("SiebelNorthHallWay",
-                adventure.changeRoom(explorer.getRooms().get(1), "North"));
+        assertEquals("SiebelNorthHallway",
+                adventure.changeRoom(explorer.getRooms().get(1), "North").getName());
     }
     @Test
     public void changeRoomToEnd() {
         assertEquals("Siebel1314",
-                adventure.changeRoom(explorer.getRooms().get(6), "South"));
+                adventure.changeRoom(explorer.getRooms().get(5), "South").getName());
     }
 
-    //IsEndOfGame tests
+    //isEndOfGame tests
     @Test
     public void checkEndOfGameEndingRoom() {
         assertEquals(true,
@@ -133,13 +135,71 @@ public class AdventureTest {
         assertEquals(false, adventure.checkEndOfGame(explorer.getRooms().get(4)));
     }
 
+    //checkStartingRoomTests
+    @Test
+    public void checkStartingRoomIsStarting() {
+        assertEquals(adventure.checkForStartingRoom(null).getName(),
+                explorer.getRooms().get(0).getName());
+    }
+    @Test
+    public void checkStartingRoomNotStarting() {
+        assertEquals(adventure.checkForStartingRoom(explorer.getRooms().get(1)).getName(),
+                explorer.getRooms().get(1).getName());
+    }
+
+    //standardizeInput tests
+    @Test
+    public void standardizeInputWithGo() {
+        assertEquals( "north", adventure.standardizeInput("go NoRth   "));
+    }
+    @Test
+    public void standardizeInputWithNoActionWord() {
+        assertEquals( "north", adventure.standardizeInput("NoRth   "));
+    }
+
+    //directionsAsString tests
+    @Test
+    public void directionsAsStringFourDirections() {
+        assertEquals( "West, Northeast, North, or East",
+                adventure.directionsAsString(explorer.getRooms().get(1)));
+    }
+    @Test
+    public void directionsAsStringTwoDirections() {
+        assertEquals("South or NorthEast",
+                adventure.directionsAsString(explorer.getRooms().get(3)));
+    }
+    @Test
+    public void directionsAsStringOneDirection() {
+        assertEquals("East", adventure.directionsAsString(explorer.getRooms().get(0)));
+    }
+
     //Tests for parsing JSON
     @Test
     public void checkStartingRoom() {
-        assertEquals( "MatthewsStreet", explorer.getStartingRoom());
+        assertEquals( explorer.getStartingRoom(), "MatthewsStreet");
     }
     @Test
     public void checkEndingRoom() {
-        assertEquals( "Siebel1314", explorer.getEndingRoom());
+        assertEquals( explorer.getEndingRoom(), "Siebel1314");
     }
+    @Test
+    public void getRoomName() {
+        assertEquals(explorer.getRooms().get(4).getName(), "Siebel1112");
+    }
+    @Test
+    public void getRoomDescription() {
+        assertEquals(explorer.getRooms().get(4).getDescription(),
+                "You are in Siebel 1112.  There is space for two code reviews in this room.");
+    }
+    @Test
+    public void getDirectionName() {
+        assertEquals(explorer.getRooms().get(4).getDirections().get(0).getDirectionName(), "West");
+    }
+    @Test
+    public void getRoomNameInDirection() {
+        assertEquals(explorer.getRooms().get(4).getDirections().get(0).getRoom(),
+                "SiebelNorthHallway");
+    }
+
+
 }

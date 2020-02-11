@@ -38,7 +38,7 @@ public class Adventure {
         if (standardizedInput.equals("exit") || standardizedInput.equals("quit")) {
             System.exit(0);
         }
-        currentRoom = checkStartingRoom(currentRoom);
+        currentRoom = checkForStartingRoom(currentRoom);
         String direction = null;
         Room newRoom = null;
 
@@ -66,14 +66,14 @@ public class Adventure {
                 System.exit(0);
             }
         }
-        if (newRoom != null) {
-            readInput(newRoom);
-        }
-        readInput(currentRoom);
+//        if (newRoom != null) {
+//            readInput(newRoom);
+//        }
+//        readInput(currentRoom);
         ///// Be sure to evaluate the input and check for the end of the game before you print the
         ///// possible directions
     }
-    public Room checkStartingRoom(Room currentRoom) {
+    public Room checkForStartingRoom(Room currentRoom) {
         if (currentRoom == null) {
             for (Room r : rooms) {
                 if (explorer.getStartingRoom().equals(r.getName())) {
@@ -133,8 +133,10 @@ public class Adventure {
                     toReturn = toReturn + "or " + directionName;
                 } else if (i == directionsSize - 1) {
                     toReturn = toReturn + directionName;
-                } else {
+                } else if (directionsSize != 2) {
                     toReturn = toReturn + directionName + ", ";
+                } else {
+                    toReturn = toReturn + directionName + " ";
                 }
             }
         } else {
