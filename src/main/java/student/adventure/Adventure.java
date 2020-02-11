@@ -15,7 +15,6 @@ public class Adventure {
     List<Room> rooms;
     boolean isEndOfGame;
 
-    //////////////////////// make the below constructor the only constructor and move the above logic to main
     public Adventure(File defaultFile) {
         mapper = new ObjectMapper();
         try {
@@ -52,14 +51,19 @@ public class Adventure {
                     + directionsAsString(currentRoom));
             return currentRoom;
         }
+
         ArrayList<Directions> directions = currentRoom.getDirections();
+
         try {
             for (int i = 0; i < directions.size(); i++) {
                 if (directions.get(i).getDirectionName().toLowerCase().equals(standardizedInput)) {
                     direction = directions.get(i).getDirectionName();
                 }
             }
-            if (direction == null) {
+            if (input.contains("go") && direction == null) {
+                System.out.println("I can't '" + input + "'");
+                return currentRoom;
+            } else if (direction == null) {
                 throw new Exception("Input not valid");
             }
             newRoom = changeRoom(currentRoom, direction);
@@ -105,7 +109,6 @@ public class Adventure {
         return null;
     }
 //Create javadoc comments
-//Verify that json is valid
 //Test for alternate json
 //Maybe reorganize
     public boolean isDeadEnd(Room currentRoom) {
@@ -134,9 +137,11 @@ public class Adventure {
             String lowercaseStandardizedInput =
                     inputAsLowerTrimmed.substring(inputAsLowerTrimmed.indexOf(" ") + 1);
             return lowercaseStandardizedInput;
-        } else {
+        } else if (inputAsLowerTrimmed.equals("exit") || inputAsLowerTrimmed.equals("quit")) {
+            System.exit(0);
             return inputAsLowerTrimmed;
         }
+        return inputAsLowerTrimmed;
     }
 
     public String directionsAsString(Room currentRoom) {

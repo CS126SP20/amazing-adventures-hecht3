@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import student.RoomExplorer;
-
 import java.io.File;
 
 
@@ -59,7 +58,7 @@ public class AdventureTest {
     @Test
     public void initialGoEastExtraLength() {
         adventure.evaluateInput(null, "go East and then go NORth");
-        assertEquals("I don't understand 'go East and then go NORth'\n",
+        assertEquals("I can't 'go East and then go NORth'\n",
                 systemOutRule.getLog());
     }
     @Test

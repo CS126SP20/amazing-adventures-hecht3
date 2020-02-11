@@ -1,12 +1,8 @@
 package student;
 
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import student.adventure.Adventure;
-
 import java.io.File;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
