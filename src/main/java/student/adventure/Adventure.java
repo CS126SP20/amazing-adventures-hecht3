@@ -2,7 +2,6 @@ package student.adventure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import student.Directions;
@@ -52,19 +51,24 @@ public class Adventure {
    * @param   currentRoom the room the user is currently in
    * @param   input the user's input as a String
    */
-   Room evaluateInput(Room currentRoom, String input) {
+  Room evaluateInput(Room currentRoom, String input) {
+
     // Standardize the input
     String standardizedInput = standardizeInput(input);
     if (standardizedInput.equals("exit") || standardizedInput.equals("quit")) {
       System.exit(0);
     }
+
+    // Make sure that our currentRoom exists or is initialized to startingRoom
     currentRoom = checkForStartingRoom(currentRoom);
     String direction = null;
     Room newRoom;
+
+    // Extra directions in case the user is confused. Is also executed when the user presses enter.
     if (input.length() == 0) {
       System.out.println(
           "Please input a direction to move by typing 'go' "
-              + "followed by the direction you want to move.");
+              + "followed by the direction you want to move, or just type the direction.");
       System.out.println(
           currentRoom.getDescription()
               + "\nFrom here, you can go: "
@@ -72,8 +76,7 @@ public class Adventure {
       return currentRoom;
     }
 
-    ArrayList<Directions> directions = currentRoom.getDirections();
-
+    // A try catch block to ensure the user has provided valid input. Fails if the input is invalid
     try {
       for (Directions d : currentRoom.getDirections()) {
         if (d.getDirectionName().toLowerCase().equals(standardizedInput)) {
@@ -90,7 +93,8 @@ public class Adventure {
       checkEndOfGame(newRoom);
       if (!isEndOfGame) {
         System.out.println(
-            newRoom.getDescription() + "\nFrom here, you can go: " + directionsAsString(newRoom));
+            newRoom.getDescription() + "\nFrom here, you can go: "
+                    + directionsAsString(newRoom));
       }
       return newRoom;
     } catch (Exception e) {
@@ -106,7 +110,7 @@ public class Adventure {
    * @param   currentRoom the room the user is currently in
    * @return  currentRoom if the starting room was not passed in. Otherwise return starting room
    */
-   Room checkForStartingRoom(Room currentRoom) {
+  Room checkForStartingRoom(Room currentRoom) {
     if (currentRoom == null) {
       for (Room r : rooms) {
         if (explorer.getStartingRoom().equals(r.getName())) {
@@ -123,7 +127,7 @@ public class Adventure {
    * @param   direction   the direction to move in
    * @return  null if there is no room in the given direction, otherwise the new room.
    */
-   Room changeRoom(Room currentRoom, String direction) {
+  Room changeRoom(Room currentRoom, String direction) {
     for (Directions d : currentRoom.getDirections()) {
       if (d.getDirectionName().equals(direction)) {
         String newRoomName = d.getRoom();
@@ -142,8 +146,8 @@ public class Adventure {
    * @param   currentRoom the room the user is currently in
    * @return  true if the user is in a dead-end room with no way out, false if there is a way out
    */
-   boolean isDeadEnd(Room currentRoom) {
-    if (currentRoom.getDirections().size() != 0) {
+  boolean isDeadEnd(Room currentRoom) {
+    if (!currentRoom.getDirections().isEmpty()) {
       return false;
     } else {
       return true;
@@ -156,7 +160,7 @@ public class Adventure {
    * @param   currentRoom the room the user is currently in
    * @return  true if the user is in the end room, false if they are not
    */
-   boolean checkEndOfGame(Room currentRoom) {
+  boolean checkEndOfGame(Room currentRoom) {
     if (currentRoom.getName().equals(explorer.getEndingRoom())) {
       System.out.println("You have found the ending room!");
       System.out.print("The ending room was: " + currentRoom.getName());
@@ -174,7 +178,7 @@ public class Adventure {
    * @param   input the user input
    * @return  the input standardized as lowercase and without leading or trailing spaces
    */
-   String standardizeInput(String input) {
+  String standardizeInput(String input) {
     String inputAsLowerTrimmed = input.toLowerCase().trim();
     if (inputAsLowerTrimmed.indexOf("go") == 0) {
       String lowercaseStandardizedInput =
@@ -182,6 +186,7 @@ public class Adventure {
       return lowercaseStandardizedInput;
     } else if (inputAsLowerTrimmed.equals("exit") || inputAsLowerTrimmed.equals("quit")) {
       System.exit(0);
+      // Return doesn't matter here as the game is over.
       return inputAsLowerTrimmed;
     }
     return inputAsLowerTrimmed;
@@ -193,9 +198,11 @@ public class Adventure {
    * @param   currentRoom the room the user is currently in
    * @return  the directions as an easy to read String
    */
-   String directionsAsString(Room currentRoom) {
+  String directionsAsString(Room currentRoom) {
     int directionsSize = currentRoom.getDirections().size();
     StringBuilder toReturn = new StringBuilder();
+    // Unfortunately, there is no good way that I could think of to cleanly format the string so
+    // that the output reads "direction1, direction2, or direction3." This was the best I could do:
     if (!isDeadEnd(currentRoom)) {
       for (int i = 0; i < directionsSize; i++) {
         String directionName = currentRoom.getDirections().get(i).getDirectionName();

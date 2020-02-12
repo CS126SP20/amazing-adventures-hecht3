@@ -47,4 +47,5 @@ public class Room {
   public void setDirections(ArrayList<Directions> directs) {
     this.directions = directs;
   }
+
 }

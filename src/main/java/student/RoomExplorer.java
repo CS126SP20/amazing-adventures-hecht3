@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.ArrayList;
 
-public class RoomExplorer { // The Wrapper class
+// The Wrapper class
+public class RoomExplorer {
   @JsonProperty("rooms")
   private ArrayList<Room> rooms;
 
