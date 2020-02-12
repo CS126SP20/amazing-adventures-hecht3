@@ -6,41 +6,45 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import java.util.ArrayList;
 
 public class Room {
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("description")
-    private String description;
-    @JsonProperty("items")
-    private String[] items;
-    @JsonProperty("directions")
-    private ArrayList<Directions> directions;
+  @JsonProperty("name")
+  private String name;
 
+  @JsonProperty("description")
+  private String description;
 
-    @JsonGetter("name")
-    public String getName() {
-        return name;
-    }
-    @JsonSetter("name")
-    public void setName(String roomName) {
-        this.name = roomName;
-    }
+  @JsonProperty("items")
+  private String[] items;
 
-    @JsonGetter("description")
-    public String getDescription() {
-        return description;
-    }
-    @JsonSetter("items")
-    public void setItems(String[] itemsArray) {
-        this.items = itemsArray;
-    }
+  @JsonProperty("directions")
+  private ArrayList<Directions> directions;
 
-    @JsonGetter("directions")
-    public ArrayList<Directions> getDirections() {
-        return directions;
-    }
-    @JsonSetter("directions")
-    public void setDirections(ArrayList<Directions> directs) {
-        this.directions = directs;
-    }
+  @JsonGetter("name")
+  public String getName() {
+    return name;
+  }
 
+  @JsonSetter("name")
+  public void setName(String roomName) {
+    this.name = roomName;
+  }
+
+  @JsonGetter("description")
+  public String getDescription() {
+    return description;
+  }
+
+  @JsonSetter("items")
+  public void setItems(String[] itemsArray) {
+    this.items = itemsArray;
+  }
+
+  @JsonGetter("directions")
+  public ArrayList<Directions> getDirections() {
+    return directions;
+  }
+
+  @JsonSetter("directions")
+  public void setDirections(ArrayList<Directions> directs) {
+    this.directions = directs;
+  }
 }
