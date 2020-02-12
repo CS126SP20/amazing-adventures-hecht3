@@ -52,7 +52,7 @@ public class Adventure {
    * @param   currentRoom the room the user is currently in
    * @param   input the user's input as a String
    */
-  public Room evaluateInput(Room currentRoom, String input) {
+   Room evaluateInput(Room currentRoom, String input) {
     // Standardize the input
     String standardizedInput = standardizeInput(input);
     if (standardizedInput.equals("exit") || standardizedInput.equals("quit")) {
@@ -60,7 +60,7 @@ public class Adventure {
     }
     currentRoom = checkForStartingRoom(currentRoom);
     String direction = null;
-    Room newRoom = null;
+    Room newRoom;
     if (input.length() == 0) {
       System.out.println(
           "Please input a direction to move by typing 'go' "
@@ -75,9 +75,9 @@ public class Adventure {
     ArrayList<Directions> directions = currentRoom.getDirections();
 
     try {
-      for (int i = 0; i < directions.size(); i++) {
-        if (directions.get(i).getDirectionName().toLowerCase().equals(standardizedInput)) {
-          direction = directions.get(i).getDirectionName();
+      for (Directions d : currentRoom.getDirections()) {
+        if (d.getDirectionName().toLowerCase().equals(standardizedInput)) {
+          direction = d.getDirectionName();
         }
       }
       if (input.contains("go") && direction == null) {
@@ -96,9 +96,6 @@ public class Adventure {
     } catch (Exception e) {
       if (!isDeadEnd(currentRoom)) {
         System.out.println("I don't understand '" + input + "'");
-      } else {
-        System.out.println("You have reached a dead end! Your game has ended.");
-        System.exit(0);
       }
       return currentRoom;
     }
@@ -109,7 +106,7 @@ public class Adventure {
    * @param   currentRoom the room the user is currently in
    * @return  currentRoom if the starting room was not passed in. Otherwise return starting room
    */
-  public Room checkForStartingRoom(Room currentRoom) {
+   Room checkForStartingRoom(Room currentRoom) {
     if (currentRoom == null) {
       for (Room r : rooms) {
         if (explorer.getStartingRoom().equals(r.getName())) {
@@ -126,7 +123,7 @@ public class Adventure {
    * @param   direction   the direction to move in
    * @return  null if there is no room in the given direction, otherwise the new room.
    */
-  public Room changeRoom(Room currentRoom, String direction) {
+   Room changeRoom(Room currentRoom, String direction) {
     for (Directions d : currentRoom.getDirections()) {
       if (d.getDirectionName().equals(direction)) {
         String newRoomName = d.getRoom();
@@ -145,11 +142,11 @@ public class Adventure {
    * @param   currentRoom the room the user is currently in
    * @return  true if the user is in a dead-end room with no way out, false if there is a way out
    */
-  public boolean isDeadEnd(Room currentRoom) {
-    if (currentRoom.getDirections().size() == 0) {
-      return true;
-    } else {
+   boolean isDeadEnd(Room currentRoom) {
+    if (currentRoom.getDirections().size() != 0) {
       return false;
+    } else {
+      return true;
     }
   }
 
@@ -159,10 +156,10 @@ public class Adventure {
    * @param   currentRoom the room the user is currently in
    * @return  true if the user is in the end room, false if they are not
    */
-  public boolean checkEndOfGame(Room currentRoom) {
+   boolean checkEndOfGame(Room currentRoom) {
     if (currentRoom.getName().equals(explorer.getEndingRoom())) {
       System.out.println("You have found the ending room!");
-      System.out.println("The ending room was: " + currentRoom.getName());
+      System.out.print("The ending room was: " + currentRoom.getName());
       isEndOfGame = true;
       return true;
     } else {
@@ -177,7 +174,7 @@ public class Adventure {
    * @param   input the user input
    * @return  the input standardized as lowercase and without leading or trailing spaces
    */
-  public String standardizeInput(String input) {
+   String standardizeInput(String input) {
     String inputAsLowerTrimmed = input.toLowerCase().trim();
     if (inputAsLowerTrimmed.indexOf("go") == 0) {
       String lowercaseStandardizedInput =
@@ -192,29 +189,31 @@ public class Adventure {
 
   /**
    * Nicely formats the directions so they are output according to the CS126 website documentation.
-   * Also calls on isDeadEnd() to check for a dead-end room.
+   * Also calls on isDeadEnd() to check for a dead-end room and exits game if it is.
    * @param   currentRoom the room the user is currently in
    * @return  the directions as an easy to read String
    */
-  public String directionsAsString(Room currentRoom) {
-    String toReturn = "";
+   String directionsAsString(Room currentRoom) {
     int directionsSize = currentRoom.getDirections().size();
+    StringBuilder toReturn = new StringBuilder();
     if (!isDeadEnd(currentRoom)) {
       for (int i = 0; i < directionsSize; i++) {
         String directionName = currentRoom.getDirections().get(i).getDirectionName();
         if (directionsSize > 1 && i == directionsSize - 1) {
-          toReturn = toReturn + "or " + directionName;
+          toReturn.append("or " + directionName);
         } else if (i == directionsSize - 1) {
-          toReturn = toReturn + directionName;
+          toReturn.append(directionName);
         } else if (directionsSize != 2) {
-          toReturn = toReturn + directionName + ", ";
+          toReturn.append(directionName + ", ");
         } else {
-          toReturn = toReturn + directionName + " ";
+          toReturn.append(directionName + " ");
         }
       }
     } else {
-      toReturn = "You are stuck!";
+      System.out.println("You have reached a dead end and are stuck!");
+      isEndOfGame = true;
+      System.exit(0);
     }
-    return toReturn;
+    return toReturn.toString();
   }
 }

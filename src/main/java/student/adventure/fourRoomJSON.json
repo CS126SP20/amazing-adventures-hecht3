@@ -1,0 +1,59 @@
+{
+  "startingRoom": "StartRoom",
+  "endingRoom": "EndRoom",
+  "rooms": [
+    {
+      "name": "StartRoom",
+      "description": "You are in the starting room",
+      "items": ["item"],
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "EndRoom"
+        },
+        {
+          "directionName": "South",
+          "room": "IntermediateRoom1"
+        }
+      ]
+    },
+    {
+      "name": "IntermediateRoom1",
+      "description": "You are in IntermediateRoom1",
+      "items": ["dog", "money"],
+      "directions": [
+        {
+          "directionName": "North",
+          "room": "StartRoom"
+        },
+        {
+          "directionName": "Upstairs",
+          "room": "IntermediateRoom2"
+        },
+        {
+          "directionName": "Forwards",
+          "room": "EndRoom"
+        }
+      ]
+    },
+    {
+      "name": "IntermediateRoom2",
+      "description": "You are in IntermediateRoom2",
+      "items": ["item"],
+      "directions": [
+
+      ]
+    },
+    {
+      "name": "EndRoom",
+      "description": "You are in the ending room",
+      "items": ["itemabc"],
+      "directions": [
+        {
+          "directionName": "Backwards",
+          "room": "IntermediateRoom2"
+        }
+      ]
+    }
+  ]
+}

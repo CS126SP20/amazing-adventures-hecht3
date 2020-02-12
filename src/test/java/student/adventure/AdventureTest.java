@@ -95,7 +95,12 @@ public class AdventureTest {
             + "From here, you can go: West, Northeast, North, or East\n",
         systemOutRule.getLog());
   }
-
+  @Test
+  public void endingRoomEvaluateInput() {
+    adventure.evaluateInput(explorer.getRooms().get(5), "go souTH  ");
+    assertEquals("You have found the ending room!\n" + "The ending room was: " +
+            explorer.getEndingRoom(), systemOutRule.getLog());
+  }
   @Test
   public void exitGameInput() {
     exit.expectSystemExit();
@@ -219,4 +224,6 @@ public class AdventureTest {
   public void getRoomNameInDirection() {
     assertEquals(explorer.getRooms().get(4).getDirections().get(0).getRoom(), "SiebelNorthHallway");
   }
+  //Tests for the non-default JSON
+
 }
