@@ -2,52 +2,53 @@ package student;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
+import java.net.URL;
 import java.util.Scanner;
 import student.adventure.Adventure;
+import org.apache.commons.io.FileUtils;
 
 public class Main {
-  static File defaultFile;
   static Adventure adventure;
-  static File userFile;
+  static URL adventureURL;
+  static File adventureFile;
+  static File defaultFile;
 
   /**
-   * The intial application method.
+   * The initial application method.
    *
    * @param args the command-line arguments for the game
    */
   public static void main(String[] args) {
     defaultFile = new File("src/main/resources/siebel.json");
-
-    // Initial directions for the user to provide a JSON
-    System.out.println(
-        "Please input a filepath with a valid JSON for your adventure game.\n"
-            + "If you do not provide a valid file, the default file for siebel will be used.");
-
-    // Request user input
-    Scanner scanner = new Scanner(System.in);
-    String input = scanner.nextLine();
-    userFile = new File(input);
     ObjectMapper mapper = new ObjectMapper();
 
-    // Attempt to parse the user input as a JSON. If this fails, the default JSON is used instead
-    // in the catch block.
     try {
-      mapper.readValue(userFile, RoomExplorer.class);
-      System.out.println("You have provided a valid JSON. "
-              + "\nPlease press enter to continue. Enjoy your game!");
-      adventure = new Adventure(userFile);
-      adventure.readInput(null);
+      adventureURL = new URL(args[0]);
+      // If the URL is not a valid URL then an exception will be thrown and the program will jump
+      // to the catch block. Additionally, if the URL does not contain a file an exception will
+      // be thrown.
+      mapper.readValue(adventureURL, RoomExplorer.class);
+      adventureFile = new File("src/main/resources/userFile.json");
+      FileUtils.copyURLToFile(adventureURL, adventureFile);
+      if (!adventureFile.isFile()) {
+        throw new Exception("URL did not contain valid file");
+      } else {
+        System.out.println("You have provided a URL for a valid JSON. "
+                + "\nPlease press enter to continue. Enjoy your game!");
+      }
     } catch (Exception e) {
-      // Another try-catch block is necessary because readValue could still throw an error
-      try {
+      adventureFile = new File(args[0]);
+      if (adventureFile.isFile()) {
+        System.out.println("You have provided a filepath for a valid JSON. "
+                + "\nPlease press enter to continue. Enjoy your game!");
+      } else {
         System.out.println("You have not provided a valid JSON. The default json will be used."
                 + "\nPlease press enter to continue");
-        mapper.readValue(defaultFile, RoomExplorer.class);
-        adventure = new Adventure(defaultFile);
-        adventure.readInput(null);
-      } catch (Exception exception) {
-        System.out.println(exception);
+        adventureFile = defaultFile;
       }
     }
+
+    adventure = new Adventure(adventureFile);
+    adventure.readInput(null);
   }
 }

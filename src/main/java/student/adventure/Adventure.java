@@ -65,7 +65,7 @@ public class Adventure {
     Room newRoom;
 
     // Extra directions in case the user is confused. Is also executed when the user presses enter.
-    if (input.length() == 0) {
+    if (input.isEmpty()) {
       System.out.println(
           "Please input a direction to move by typing 'go' "
               + "followed by the direction you want to move, or just type the direction.");
@@ -83,7 +83,7 @@ public class Adventure {
           direction = d.getDirectionName();
         }
       }
-      if (input.contains("go") && direction == null) {
+      if (input.contains("go ") && direction == null) {
         System.out.println("I can't '" + input + "'");
         return currentRoom;
       } else if (direction == null) {
@@ -187,7 +187,6 @@ public class Adventure {
     } else if (inputAsLowerTrimmed.equals("exit") || inputAsLowerTrimmed.equals("quit")) {
       System.exit(0);
       // Return doesn't matter here as the game is over.
-      return inputAsLowerTrimmed;
     }
     return inputAsLowerTrimmed;
   }
@@ -203,7 +202,7 @@ public class Adventure {
     StringBuilder toReturn = new StringBuilder();
     // Unfortunately, there is no good way that I could think of to cleanly format the string so
     // that the output reads "direction1, direction2, or direction3." This was the best I could do:
-    if (!isDeadEnd(currentRoom)) {
+    if (!isDeadEnd(currentRoom) && directionsSize > 0) {
       for (int i = 0; i < directionsSize; i++) {
         String directionName = currentRoom.getDirections().get(i).getDirectionName();
         if (directionsSize > 1 && i == directionsSize - 1) {
