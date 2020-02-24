@@ -71,7 +71,7 @@ public class AdventureResource {
             return instanceNotFound(id);
         }
 
-        GameStatus response = new GameStatus(id, game.getCurrentRoom(), game.isOver());
+        GameStatus response = new GameStatus(id, game.getCurrentRoom(), game.isEndOfGame);
         return Response.ok(response).build();
     }
 

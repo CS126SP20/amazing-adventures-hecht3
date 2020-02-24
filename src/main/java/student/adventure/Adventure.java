@@ -16,7 +16,8 @@ public class Adventure {
   RoomExplorer explorer;
   /** The rooms for the given JSON */
   List<Room> rooms;
-  boolean isEndOfGame;
+  Room publicRoom;
+  public boolean isEndOfGame;
   /** The constants that represent the user's command on an item */
   public static final int REMOVE = 0;
   public static final int ADD = 1;
@@ -47,6 +48,7 @@ public class Adventure {
     Scanner scanner = new Scanner(System.in);
     String input = scanner.nextLine();
     currentRoom = evaluateInput(currentRoom, input);
+    publicRoom = currentRoom;
     if (!isEndOfGame) {
       readInput(currentRoom);
     }
@@ -68,6 +70,7 @@ public class Adventure {
 
     // Make sure that our currentRoom exists or is initialized to startingRoom
     currentRoom = checkForStartingRoom(currentRoom);
+    publicRoom = currentRoom;
     String direction = null;
     String item = null;
     Room newRoom;
@@ -296,5 +299,9 @@ public class Adventure {
         System.out.println("Room already contains " + item);
       }
     }
+  }
+
+  public Room getCurrentRoom() {
+    return publicRoom;
   }
 }
