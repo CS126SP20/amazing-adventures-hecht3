@@ -4,9 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
-import student.Directions;
-import student.Room;
-import student.RoomExplorer;
 
 /**
  * Contains the information and logic for a new adventure. Handles taking user input and deciding

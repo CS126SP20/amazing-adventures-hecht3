@@ -13,7 +13,6 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
  * The SystemOutRule API will be used for these tests instead of byteStream because it works with my
  * helper functions better.
  */
-import student.RoomExplorer;
 import java.io.File;
 
 public class AdventureTestFourRoom {

@@ -3,9 +3,10 @@ package student;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.net.URL;
-import java.util.Scanner;
+
 import student.adventure.Adventure;
 import org.apache.commons.io.FileUtils;
+import student.adventure.RoomExplorer;
 
 public class Main {
   /** The adventure that the user will interact with */

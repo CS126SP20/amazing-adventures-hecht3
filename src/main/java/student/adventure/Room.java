@@ -1,4 +1,4 @@
-package student;
+package student.adventure;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;

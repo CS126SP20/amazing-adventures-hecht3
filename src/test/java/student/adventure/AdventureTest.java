@@ -13,11 +13,7 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
  * The SystemOutRule API will be used for these tests instead of byteStream because it works with my
  * helper functions better.
  */
-import student.Room;
-import student.RoomExplorer;
 import java.io.File;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AdventureTest {
