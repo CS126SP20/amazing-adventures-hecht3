@@ -13,6 +13,8 @@ public class Adventure {
   RoomExplorer explorer;
   List<Room> rooms;
   boolean isEndOfGame;
+  public static final int REMOVE = 0;
+  public static final int ADD = 1;
 
   /**
    * Constructor for the Adventure class.
@@ -62,17 +64,16 @@ public class Adventure {
     // Make sure that our currentRoom exists or is initialized to startingRoom
     currentRoom = checkForStartingRoom(currentRoom);
     String direction = null;
+    String item = null;
     Room newRoom;
 
     // Extra directions in case the user is confused. Is also executed when the user presses enter.
     if (input.isEmpty()) {
       System.out.println(
           "Please input a direction to move by typing 'go' "
-              + "followed by the direction you want to move, or just type the direction.");
-      System.out.println(
-          currentRoom.getDescription()
-              + "\nFrom here, you can go: "
-              + directionsAsString(currentRoom));
+              + "followed by the direction you want to move, or just type the direction." +
+                  "\n'examine', 'add [item]', and 'remove [item]' are also valid commands.\n");
+      System.out.println(getRoomInfo(currentRoom));
       return currentRoom;
     }
 
@@ -83,8 +84,18 @@ public class Adventure {
           direction = d.getDirectionName();
         }
       }
-      if (input.contains("go ") && direction == null) {
+      if (input.toLowerCase().contains("go ") && direction == null) {
         System.out.println("I can't '" + input + "'");
+        return currentRoom;
+      } else if (input.toLowerCase().contains("remove ")) {
+        editItems(currentRoom, REMOVE, standardizedInput);
+        return currentRoom;
+      } else if (input.toLowerCase().contains("add ")) {
+        editItems(currentRoom, ADD, standardizedInput);
+        return currentRoom;
+      } else if (standardizedInput.contains("examine")
+              && standardizedInput.length() == "examine".length()) {
+        System.out.println(getRoomInfo(currentRoom));
         return currentRoom;
       } else if (direction == null) {
         throw new Exception("Input not valid");
@@ -92,9 +103,7 @@ public class Adventure {
       newRoom = changeRoom(currentRoom, direction);
       checkEndOfGame(newRoom);
       if (!isEndOfGame) {
-        System.out.println(
-            newRoom.getDescription() + "\nFrom here, you can go: "
-                    + directionsAsString(newRoom));
+        System.out.println(getRoomInfo(newRoom));
       }
       return newRoom;
     } catch (Exception e) {
@@ -180,7 +189,8 @@ public class Adventure {
    */
   String standardizeInput(String input) {
     String inputAsLowerTrimmed = input.toLowerCase().trim();
-    if (inputAsLowerTrimmed.indexOf("go") == 0) {
+    if (inputAsLowerTrimmed.indexOf("go") == 0 || inputAsLowerTrimmed.indexOf("remove") == 0 ||
+            inputAsLowerTrimmed.indexOf("add") == 0) {
       String lowercaseStandardizedInput =
           inputAsLowerTrimmed.substring(inputAsLowerTrimmed.indexOf(" ") + 1);
       return lowercaseStandardizedInput;
@@ -221,5 +231,52 @@ public class Adventure {
       System.exit(0);
     }
     return toReturn.toString();
+  }
+
+  /**
+   * Nicely formats the items into a readable list.
+   * @param   currentRoom the room the user is currently in
+   * @return  the items as an easy to read String
+   */
+  String getItemsAsString(Room currentRoom) {
+    StringBuilder toReturn = new StringBuilder();
+    int itemsLength = currentRoom.getItems().size();
+    List<String> items = currentRoom.getItems();
+
+    if (itemsLength == 0) {
+      toReturn.append("There are no items visible");
+    } else {
+      toReturn.append("Items visible:");
+      for (int i = 0; i < itemsLength; i++) {
+        toReturn.append(" " + items.get(i));
+        if (i != items.size() - 1) {
+          toReturn.append(",");
+        }
+      }
+    }
+    return toReturn.toString();
+  }
+
+  String getRoomInfo(Room currentRoom) {
+    return currentRoom.getDescription() + "\nFrom here, you can go: "
+            + directionsAsString(currentRoom) + "\n" + getItemsAsString(currentRoom);
+  }
+
+  void editItems(Room currentRoom, int action, String item) {
+    if (action == REMOVE) {
+      if (currentRoom.getItems().contains(item)) {
+        currentRoom.removeItem(item);
+        System.out.println(item + " removed");
+      } else {
+        System.out.println("Room does not contain '" + item + "'");
+      }
+    } else if (action == ADD) {
+      if (!currentRoom.getItems().contains(item)) {
+        currentRoom.addItem(item);
+        System.out.println(item + " added");
+      } else {
+        System.out.println("Room already contains " + item);
+      }
+    }
   }
 }

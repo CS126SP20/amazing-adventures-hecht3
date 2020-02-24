@@ -13,8 +13,12 @@ import org.junit.contrib.java.lang.system.SystemOutRule;
  * The SystemOutRule API will be used for these tests instead of byteStream because it works with my
  * helper functions better.
  */
+import student.Room;
 import student.RoomExplorer;
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AdventureTest {
   private ObjectMapper mapper;
@@ -72,7 +76,8 @@ public class AdventureTest {
     assertEquals(
         "You are in the west entry of Siebel Center. "
             + "You can see the elevator, the ACM office, and hallways to the north and east.\n"
-            + "From here, you can go: West, Northeast, North, or East\n",
+            + "From here, you can go: West, Northeast, North, or East\n"
+            + "Items visible: sweatshirt, key\n",
         systemOutRule.getLog());
   }
 
@@ -82,7 +87,8 @@ public class AdventureTest {
     assertEquals(
         "You are in the west entry of Siebel Center. "
             + "You can see the elevator, the ACM office, and hallways to the north and east.\n"
-            + "From here, you can go: West, Northeast, North, or East\n",
+            + "From here, you can go: West, Northeast, North, or East\n"
+            + "Items visible: sweatshirt, key\n",
         systemOutRule.getLog());
   }
 
@@ -92,7 +98,8 @@ public class AdventureTest {
     assertEquals(
         "You are in the west entry of Siebel Center. "
             + "You can see the elevator, the ACM office, and hallways to the north and east.\n"
-            + "From here, you can go: West, Northeast, North, or East\n",
+            + "From here, you can go: West, Northeast, North, or East\n"
+            + "Items visible: sweatshirt, key\n",
         systemOutRule.getLog());
   }
   @Test
@@ -224,6 +231,50 @@ public class AdventureTest {
   public void getRoomNameInDirection() {
     assertEquals(explorer.getRooms().get(4).getDirections().get(0).getRoom(), "SiebelNorthHallway");
   }
-  //Tests for the non-default JSON
+
+  @Test
+  public void editItemsRemoveSingleWord() {
+    Room currentRoom = explorer.getRooms().get(0);
+    adventure.editItems(currentRoom, Adventure.REMOVE, "coin");
+    assertEquals(0, currentRoom.getItems().size());
+  }
+
+  @Test
+  public void editItemsRemoveMultiWord() {
+    Room currentRoom = explorer.getRooms().get(4);
+    adventure.editItems(currentRoom, Adventure.REMOVE, "USB-C connector");
+    assertEquals(Arrays.asList("grading rubric"), currentRoom.getItems());
+  }
+
+  @Test
+  public void editItemsRemoveDoesNotContain() {
+    Room currentRoom = explorer.getRooms().get(4);
+    adventure.editItems(currentRoom, Adventure.REMOVE, "car");
+    assertEquals(Arrays.asList("USB-C connector", "grading rubric"), currentRoom.getItems());
+  }
+
+  @Test
+  public void editItemsAddSingleWord() {
+    Room currentRoom = explorer.getRooms().get(4);
+    adventure.editItems(currentRoom, Adventure.ADD, "spaceship");
+    assertEquals(Arrays.asList("USB-C connector", "grading rubric", "spaceship"),
+            currentRoom.getItems());
+  }
+
+  @Test
+  public void editItemsAddMultiWord() {
+    Room currentRoom = explorer.getRooms().get(4);
+    adventure.editItems(currentRoom, Adventure.ADD, "space ship");
+    assertEquals(Arrays.asList("USB-C connector", "grading rubric", "space ship"),
+            currentRoom.getItems());
+  }
+
+  @Test
+  public void editItemsAlreadyContains() {
+    Room currentRoom = explorer.getRooms().get(4);
+    adventure.editItems(currentRoom, Adventure.ADD, "grading rubric");
+    assertEquals(Arrays.asList("USB-C connector", "grading rubric"),
+            currentRoom.getItems());
+  }
 
 }
