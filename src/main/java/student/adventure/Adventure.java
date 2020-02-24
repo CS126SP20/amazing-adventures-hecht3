@@ -8,11 +8,19 @@ import student.Directions;
 import student.Room;
 import student.RoomExplorer;
 
+/**
+ * Contains the information and logic for a new adventure. Handles taking user input and deciding
+ * what to do with user commands.
+ */
 public class Adventure {
+  /** The Jackson JSON parser */
   ObjectMapper mapper;
+  /** The instance of the JSON wrapper class */
   RoomExplorer explorer;
+  /** The rooms for the given JSON */
   List<Room> rooms;
   boolean isEndOfGame;
+  /** The constants that represent the user's command on an item */
   public static final int REMOVE = 0;
   public static final int ADD = 1;
 
@@ -77,7 +85,8 @@ public class Adventure {
       return currentRoom;
     }
 
-    // A try catch block to ensure the user has provided valid input. Fails if the input is invalid
+    // A try catch block to ensure the user has provided valid input. Fails if the input is invalid.
+    // Also checks for the various valid commands that the user can provide and acts on them.
     try {
       for (Directions d : currentRoom.getDirections()) {
         if (d.getDirectionName().toLowerCase().equals(standardizedInput)) {
@@ -257,11 +266,23 @@ public class Adventure {
     return toReturn.toString();
   }
 
+  /**
+   * Gives the String that has all of the Room information in it
+   * @param   currentRoom the room the user is currently in
+   * @return  the String with the Room information for the user to read
+   */
   String getRoomInfo(Room currentRoom) {
     return currentRoom.getDescription() + "\nFrom here, you can go: "
             + directionsAsString(currentRoom) + "\n" + getItemsAsString(currentRoom);
   }
 
+  /**
+   * Changes the items list depending on what the user's command. Calls on some basic helper methods
+   * in Room.java.
+   * @param   currentRoom the room the user is currently in
+   * @param   action an integer representing the action the user wishes to take on the item
+   * @param   item the item the user wishes to add or remove
+   */
   void editItems(Room currentRoom, int action, String item) {
     if (action == REMOVE) {
       if (currentRoom.getItems().contains(item)) {

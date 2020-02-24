@@ -232,6 +232,7 @@ public class AdventureTest {
     assertEquals(explorer.getRooms().get(4).getDirections().get(0).getRoom(), "SiebelNorthHallway");
   }
 
+  // editItems tests
   @Test
   public void editItemsRemoveSingleWord() {
     Room currentRoom = explorer.getRooms().get(0);
