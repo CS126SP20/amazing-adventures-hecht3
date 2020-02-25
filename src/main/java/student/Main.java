@@ -9,6 +9,7 @@ import student.adventure.Adventure;
 import org.apache.commons.io.FileUtils;
 import student.adventure.RoomExplorer;
 
+
 public class Main {
   /** The adventure that the user will interact with */
   static Adventure adventure;
@@ -40,19 +41,19 @@ public class Main {
           throw new Exception("URL did not contain valid file");
         } else {
           System.out.println(
-              "You have provided a URL for a valid JSON. "
-                  + "\nPlease press enter to continue. Enjoy your game!");
+                  "You have provided a URL for a valid JSON. "
+                          + "\nPlease press enter to continue. Enjoy your game!");
         }
       } catch (Exception e) {
         adventureFile = new File(args[0]);
         if (adventureFile.isFile()) {
           System.out.println(
-              "You have provided a filepath for a valid JSON. "
-                  + "\nPlease press enter to continue. Enjoy your game!");
+                  "You have provided a filepath for a valid JSON. "
+                          + "\nPlease press enter to continue. Enjoy your game!");
         } else {
           System.out.println(
-              "You have not provided a valid JSON. The default json will be used."
-                  + "\nPlease press enter to continue");
+                  "You have not provided a valid JSON. The default json will be used."
+                          + "\nPlease press enter to continue");
           adventureFile = defaultFile;
         }
       }
