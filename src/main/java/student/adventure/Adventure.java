@@ -22,6 +22,7 @@ public class Adventure {
   /** The constants that represent the user's command on an item */
   public static final int REMOVE = 0;
   public static final int ADD = 1;
+  /** This is an arbitrary number that dictates what percentage of the items allow teleportation */
   public static final int TELEPORTATION_ITEMS_DIVISOR = 4;
 
   /**
@@ -92,8 +93,9 @@ public class Adventure {
     if (input.isEmpty()) {
       System.out.println(
           "Please input a direction to move by typing 'go' "
-              + "followed by the direction you want to move, or just type the direction." +
-                  "\n'examine', 'add [item]', and 'remove [item]' are also valid commands.\n");
+              + "followed by the direction you want to move, or just type the direction."
+              + "\n'examine', 'inspect [item]', 'add [item]', and 'remove [item]'" +
+                  " are also valid commands.\n");
       System.out.println(getRoomInfo(currentRoom));
       return currentRoom;
     }
