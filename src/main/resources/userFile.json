@@ -1,113 +1,118 @@
 {
-	"startingRoom": "SpringfieldAvenue",
-	"endingRoom": "CBTFRoom",
-	"rooms": [{
-		"name": "SpringfieldAvenue",
-		"description": "You are on west Springfield Avenue, outside the Grainger Engineering Library.",
-		"items": ["cat", "car"],
-		"directions": [{
-			"directionName": "South",
-			"room": "GraingerEntry"
-		}]
-	},
-		{
-			"name": "GraingerEntry",
-			"description": "You are in the north west entry of Grainger Engineering Library. You can see a staircase leading down, and a hallway to the east.",
-			"items": ["pen", "key"],
-			"directions": [{
-					"directionName": "North",
-					"room": "SpringfieldAvenue"
-				},
-				{
-					"directionName": "Northeast",
-					"room": "Staircase"
-				},
-				{
-					"directionName": "East",
-					"room": "GraingerMainHallway"
-				}
-			]
-		},
-		{
-			"name": "Staircase",
-			"description": "You walk to the staircase. You see there is some kind of construction going on upstairs, and there are more people downstairs.",
-			"items": ["red sock", "stairs"],
-			"directions": [{
-					"directionName": "Southwest",
-					"room": "GraingerEntry"
-				},
-				{
-					"directionName": "Down",
-					"room": "GraingerBasement"
-				}
-			]
-		},
-		{
-			"name": "GraingerMainHallway",
-			"description": "You are in the main hallway.  You can see a different set of staircases to the east and an exit to the south.",
-			"directions": [{
-					"directionName": "West",
-					"room": "GraingerEntry"
-				},
-				{
-					"directionName": "South",
-					"room": "NorthQuad"
-				},
-				{
-					"directionName": "East",
-					"room": "EastStaircase"
-				}
-			]
-		},
-		{
-			"name": "NorthQuad",
-			"description": "You are on the North Quad. You see the sculpture of a man reading a book, which fills you with determination.",
-			"items": ["Sad Engineering student", "Happy Engineering student"],
-			"directions": [{
-				"directionName": "North",
-				"room": "GraingerMainHallway"
-			}]
-		},
-		{
-			"name": "EastStaircase",
-			"description": "You go to the top of the east staircase.  You can see a strange light coming from down the stairs.",
-			"items": ["blue sock", "penny"],
-			"directions": [{
-					"directionName": "West",
-					"room": "GraingerMainHallway"
-				},
-				{
-					"directionName": "Down",
-					"room": "CBTFRoom"
-				}
-			]
-		},
-		{
-			"name": "CBTFRoom",
-			"description": "You are at the CBTF Room!. You are now ready to give your CS final exam.",
-			"directions": [{
-					"directionName": "Up",
-					"room": "EastStaircase"
-				},
-				{
-					"directionName": "West",
-					"room": "GraingerBasement"
-				}
-			]
-		},
-		{
-			"name": "GraingerBasement",
-			"description": "You are in the basement of Grainger.  You see tables with students working and a strange light to the east.",
-			"items": ["pencil"],
-				"directions": [{
-					"directionName": "Up",
-					"room": "Staircase"
-				},
-				{
-					"directionName": "East",
-					"room": "CBTFRoom"
-				}
-			]
-		}
-	]
+  "startingRoom": "MatthewsStreet",
+  "endingRoom": "Siebel1314",
+  "rooms": [
+    {
+      "name": "MatthewsStreet",
+      "description": "You are on Matthews, outside the Siebel Center",
+      "items": ["coin"],
+      "directions": [
+        {
+          "directionName": "East",
+          "room": "SiebelEntry"
+        }
+      ]
+    },
+    {
+      "name": "SiebelEntry",
+      "description": "You are in the west entry of Siebel Center. You can see the elevator, the ACM office, and hallways to the north and east.",
+      "items": ["sweatshirt", "key"],
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "MatthewsStreet"
+        },
+        {
+          "directionName": "Northeast",
+          "room": "AcmOffice"
+        },
+        {
+          "directionName": "North",
+          "room": "SiebelNorthHallway"
+        },
+        {
+          "directionName": "East",
+          "room": "SiebelEastHallway"
+        }
+      ]
+    },
+    {
+      "name": "AcmOffice",
+      "description": "You are in the ACM office.  There are lots of friendly ACM people.",
+      "items": ["pizza", "swag"],
+      "directions": [
+        {
+          "directionName": "South",
+          "room": "SiebelEntry"
+        }
+      ]
+    },
+    {
+      "name": "SiebelNorthHallway",
+      "description": "You are in the north hallway.  You can see Siebel 1112 and the door toward NCSA.",
+      "items": [],
+      "directions": [
+        {
+          "directionName": "South",
+          "room": "SiebelEntry"
+        },
+        {
+          "directionName": "NorthEast",
+          "room": "Siebel1112"
+        }
+      ]
+    },
+    {
+      "name": "Siebel1112",
+      "description": "You are in Siebel 1112.  There is space for two code reviews in this room.",
+      "items": ["USB-C connector", "grading rubric"],
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "SiebelNorthHallway"
+        }
+      ]
+    },
+    {
+      "name": "SiebelEastHallway",
+      "description": "You are in the east hallway.  You can see Einstein Bros' Bagels and a stairway.",
+      "items": ["bagel", "coffee"],
+      "directions": [
+        {
+          "directionName": "West",
+          "room": "SiebelEntry"
+        },
+        {
+          "directionName": "South",
+          "room": "Siebel1314"
+        },
+        {
+          "directionName": "Down",
+          "room": "SiebelBasement"
+        }
+      ]
+    },
+    {
+      "name": "Siebel1314",
+      "description": "You are in Siebel 1314.  There are happy CS 126 students doing a code review.",
+      "items": [],
+      "directions": [
+        {
+          "directionName": "North",
+          "room": "SiebelEastHallway"
+        }
+      ]
+    },
+    {
+      "name": "SiebelBasement",
+      "description": "You are in the basement of Siebel.  You see tables with students working and door to computer labs.",
+      "items": ["pencil"],
+      "directions": [
+        {
+          "directionName": "Up",
+          "room": "SiebelEastHallway"
+        }
+      ]
+    }
+  ]
 }

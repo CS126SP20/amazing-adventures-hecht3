@@ -16,7 +16,6 @@ public class Adventure {
   RoomExplorer explorer;
   /** The rooms for the given JSON */
   List<Room> rooms;
-  Room publicRoom;
   public boolean isEndOfGame;
   /** The constants that represent the user's command on an item */
   public static final int REMOVE = 0;
@@ -48,7 +47,6 @@ public class Adventure {
     Scanner scanner = new Scanner(System.in);
     String input = scanner.nextLine();
     currentRoom = evaluateInput(currentRoom, input);
-    publicRoom = currentRoom;
     if (!isEndOfGame) {
       readInput(currentRoom);
     }
@@ -70,7 +68,6 @@ public class Adventure {
 
     // Make sure that our currentRoom exists or is initialized to startingRoom
     currentRoom = checkForStartingRoom(currentRoom);
-    publicRoom = currentRoom;
     String direction = null;
     String item = null;
     Room newRoom;
@@ -102,6 +99,10 @@ public class Adventure {
       } else if (input.toLowerCase().contains("add ")) {
         editItems(currentRoom, ADD, standardizedInput);
         return currentRoom;
+      } else if (input.toLowerCase().contains("teleport ")) {
+        currentRoom = teleportUser(currentRoom, standardizedInput);
+        checkEndOfGame(currentRoom);
+        return currentRoom;
       } else if (standardizedInput.contains("examine")
               && standardizedInput.length() == "examine".length()) {
         System.out.println(getRoomInfo(currentRoom));
@@ -121,6 +122,17 @@ public class Adventure {
       }
       return currentRoom;
     }
+  }
+
+  Room teleportUser(Room CurrentRoom, String standardizedInput) {
+    for(Room room : rooms) {
+      if (room.getName().toLowerCase().equals(standardizedInput)) {
+        System.out.println("You have teleported to " + room.getName() + "!");
+        return room;
+      }
+    }
+    System.out.println("Room not found! You have not teleported.");
+    return CurrentRoom;
   }
 
   /**
@@ -145,7 +157,7 @@ public class Adventure {
    * @param   direction   the direction to move in
    * @return  null if there is no room in the given direction, otherwise the new room.
    */
-  Room changeRoom(Room currentRoom, String direction) {
+  public Room changeRoom(Room currentRoom, String direction) {
     for (Directions d : currentRoom.getDirections()) {
       if (d.getDirectionName().equals(direction)) {
         String newRoomName = d.getRoom();
@@ -199,7 +211,7 @@ public class Adventure {
   String standardizeInput(String input) {
     String inputAsLowerTrimmed = input.toLowerCase().trim();
     if (inputAsLowerTrimmed.indexOf("go") == 0 || inputAsLowerTrimmed.indexOf("remove") == 0 ||
-            inputAsLowerTrimmed.indexOf("add") == 0) {
+          inputAsLowerTrimmed.indexOf("add") == 0 || inputAsLowerTrimmed.indexOf("teleport") == 0) {
       String lowercaseStandardizedInput =
           inputAsLowerTrimmed.substring(inputAsLowerTrimmed.indexOf(" ") + 1);
       return lowercaseStandardizedInput;
@@ -283,7 +295,7 @@ public class Adventure {
    * @param   action an integer representing the action the user wishes to take on the item
    * @param   item the item the user wishes to add or remove
    */
-  void editItems(Room currentRoom, int action, String item) {
+  public void editItems(Room currentRoom, int action, String item) {
     if (action == REMOVE) {
       if (currentRoom.getItems().contains(item)) {
         currentRoom.removeItem(item);
@@ -301,7 +313,4 @@ public class Adventure {
     }
   }
 
-  public Room getCurrentRoom() {
-    return publicRoom;
-  }
 }
