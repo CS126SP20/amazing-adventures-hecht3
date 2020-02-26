@@ -274,4 +274,46 @@ public class AdventureTest {
             currentRoom.getItems());
   }
 
+  @Test
+  public void inspectItemEmpty() {
+    Room currentRoom = explorer.getRooms().get(4);
+    assertEquals(currentRoom, adventure.inspectItem(currentRoom, ""));
+    assertEquals("There is no such item in this room.\n", systemOutRule.getLog());
+  }
+
+  @Test
+  public void inspectItemNotTeleportationItem() {
+    String itemNotTeleportable = adventure.teleportationItems.get(0);
+    int i = 0;
+    while (adventure.teleportationItems.contains(itemNotTeleportable)) {
+      itemNotTeleportable = adventure.allItems.get(i);
+      i++;
+    }
+    Room currentRoom = null;
+    for (Room r : adventure.rooms) {
+      if (r.getItems().contains(itemNotTeleportable)) {
+        currentRoom = r;
+        break;
+      }
+    }
+    assertEquals(currentRoom, adventure.inspectItem(currentRoom, itemNotTeleportable));
+    assertEquals("There is nothing special about this item.\n", systemOutRule.getLog());
+  }
+
+  @Test
+  public void inspectItemIsTeleportationItem() {
+    String itemTeleportable = adventure.teleportationItems.get(0);
+    Room currentRoom = null;
+    for (Room r : adventure.rooms) {
+      r.getItems();
+      if (r.getItems().contains(itemTeleportable)) {
+        currentRoom = r;
+        break;
+      }
+    }
+    assertNotEquals(currentRoom, adventure.inspectItem(currentRoom, itemTeleportable.toLowerCase()));
+    assertEquals("You have teleported to ",
+            systemOutRule.getLog().substring(0, "You have teleported to ".length()));
+  }
+
 }

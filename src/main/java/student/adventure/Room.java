@@ -37,6 +37,9 @@ public class Room {
 
   @JsonGetter("items")
   public List<String> getItems() {
+    if (items == null) {
+      return new ArrayList<String>();
+    }
     return Arrays.asList(items);
   }
 
