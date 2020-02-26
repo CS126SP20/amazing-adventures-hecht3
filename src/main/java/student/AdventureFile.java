@@ -1,15 +1,17 @@
 package student;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.FileUtils;
-import student.adventure.RoomExplorer;
-
 import java.io.File;
 import java.net.URL;
-
+import org.apache.commons.io.FileUtils;
 /**
- * The class for determining what to do with the command line arguments.
+ * https://commons.apache.org/proper/commons-io/javadocs/api-2.5/org/apache/commons/io/FileUtils.html
+ * Imported for the copyURLToFile method used below. Basically downloads a file from the URL and
+ * stores it in the specified location.
  */
+import student.adventure.RoomExplorer;
+
+/** The class for determining what to do with the command line arguments. */
 public class AdventureFile {
   /** The URL, if any, passed through the command line */
   static URL adventureURL;
@@ -23,7 +25,7 @@ public class AdventureFile {
    * @param args the command-line arguments for the game
    * @param defaultFile the default file dictated by main. Usually is siebel.json
    * @return adventureFile the validated file from the URL or filepath or the default file if the
-   *         URL or filepath was invalid
+   *     URL or filepath was invalid
    */
   public static File validate(String[] args, File defaultFile) {
     if (args.length != 0) {
@@ -35,28 +37,34 @@ public class AdventureFile {
         ObjectMapper mapper = new ObjectMapper();
         mapper.readValue(adventureURL, RoomExplorer.class);
         adventureFile = new File("src/main/resources/userFile.json");
+        // Copies the file at the URL to a local file so that it can be ultimately passed into the
+        // Adventure constructor.
         FileUtils.copyURLToFile(adventureURL, adventureFile);
         if (!adventureFile.isFile()) {
           throw new Exception("URL did not contain valid file");
         } else {
           System.out.println(
-                  "You have provided a URL for a valid JSON. "
-                          + "\nPlease press enter to continue. Enjoy your game!");
+              "You have provided a URL for a valid JSON. "
+                  + "\nPlease press enter to continue. Enjoy your game!");
         }
       } catch (Exception e) {
         adventureFile = new File(args[0]);
         if (adventureFile.isFile()) {
           System.out.println(
-                  "You have provided a filepath for a valid JSON. "
-                          + "\nPlease press enter to continue. Enjoy your game!");
+              "You have provided a filepath for a valid JSON. "
+                  + "\nPlease press enter to continue. Enjoy your game!");
         } else {
           System.out.println(
-                  "You have not provided a valid JSON. The default json will be used."
-                          + "\nPlease press enter to continue");
+              "You have not provided a valid JSON. The default json will be used."
+                  + "\nPlease press enter to continue");
           adventureFile = defaultFile;
         }
       }
     } else {
+      // If we have no command line arguments, start the game with the default siebel.json
+      System.out.println(
+              "You have not provided any command line arguments. The default json will be used."
+                      + "\nPlease press enter to continue");
       adventureFile = defaultFile;
     }
     return adventureFile;

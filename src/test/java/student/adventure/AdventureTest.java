@@ -182,17 +182,17 @@ public class AdventureTest {
   public void directionsAsStringFourDirections() {
     assertEquals(
         "West, Northeast, North, or East",
-        adventure.directionsAsString(explorer.getRooms().get(1)));
+        adventure.getDirectionsAsString(explorer.getRooms().get(1)));
   }
 
   @Test
   public void directionsAsStringTwoDirections() {
-    assertEquals("South or NorthEast", adventure.directionsAsString(explorer.getRooms().get(3)));
+    assertEquals("South or NorthEast", adventure.getDirectionsAsString(explorer.getRooms().get(3)));
   }
 
   @Test
   public void directionsAsStringOneDirection() {
-    assertEquals("East", adventure.directionsAsString(explorer.getRooms().get(0)));
+    assertEquals("East", adventure.getDirectionsAsString(explorer.getRooms().get(0)));
   }
 
   // Tests for parsing JSON

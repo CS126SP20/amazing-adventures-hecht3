@@ -25,7 +25,7 @@ public class AdventureTestFourRoom {
 
   @Before
   public void setUp() {
-    File file = new File("src/main/java/student/adventure/fourRoomJSON.json");
+    File file = new File("src/main/resources/fourRoomJSON.json");
     this.mapper = new ObjectMapper();
     adventure = new Adventure(file);
     try {
@@ -46,7 +46,8 @@ public class AdventureTestFourRoom {
     adventure.evaluateInput(explorer.getRooms().get(0), "go south");
     assertEquals(
             "You are in IntermediateRoom1\n"
-                    + "From here, you can go: North, Upstairs, or Forwards\n",
+                    + "From here, you can go: North, Upstairs, or Forwards\n"
+                    + "Items visible: dog, money\n",
             systemOutRule.getLog());
   }
 
@@ -55,7 +56,8 @@ public class AdventureTestFourRoom {
     adventure.evaluateInput(explorer.getRooms().get(1), "go noRTh    ");
     assertEquals(
             "You are in the starting room\n"
-                    + "From here, you can go: West or South\n",
+                    + "From here, you can go: West or South\n"
+                    + "Items visible: item\n",
             systemOutRule.getLog());
   }
 
